@@ -1,0 +1,80 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="add_table_strength" author="krichardson">
+        <createTable tableName="strength">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="color" type="varchar(10)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_person" author="krichardson">
+        <createTable tableName="person">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="add_table_person_strength" author="krichardson">
+        <createTable tableName="person_strength">
+            <column name="person_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strength_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rank" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="person_strength"
+                                 baseColumnNames="person_id"
+                                 constraintName="fk_person_strength_person_id" 
+                                 referencedTableName="person"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="person_strength"
+                                 baseColumnNames="strength_id"
+                                 constraintName="fk_person_strength_strength_id" 
+                                 referencedTableName="strength"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="add_unique_person_strength_unique_contstraints" author="krichardson">
+        <addUniqueConstraint constraintName="uq_person_strength_person_id_rank"
+                             tableName="person_strength"
+                             columnNames="person_id,rank" />
+        <addUniqueConstraint constraintName="uq_person_strength_person_id_strength_id"
+                             tableName="person_strength"
+                             columnNames="person_id,strength_id"/>
+    </changeSet>
+
+    <changeSet id="load_strengths_data" author="krichardson">
+        <loadData encoding="UTF-8"
+                  file="data/strengths.csv"
+                  schemaName="public"
+                  separator=","
+                  tableName="strength">
+            <column name="name" type="STRING"/>
+            <column name="description" type="STRING"/>
+            <column name="color" type="STRING"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

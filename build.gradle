@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url 'http://repo.jfrog.org/artifactory/gradle-plugins' }
+        maven { url 'http://dl.bintray.com/vermeulen-mp/gradle-plugins' }
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group = group
+version = version
+sourceCompatibility = 1.8
+mainClassName = mainClass
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+
+    compile "${dropwizardGroup}:dropwizard-core:${dropwizardVersion}"
+    compile "${dropwizardGroup}:dropwizard-testing:${dropwizardVersion}"
+    compile "${dropwizardGroup}:dropwizard-jdbi:${dropwizardVersion}"
+    compile "${dropwizardGroup}:dropwizard-migrations:${dropwizardVersion}"
+    compile "${dropwizardGroup}:dropwizard-auth:${dropwizardVersion}"
+    //compile "${dropwizardGroup}:dropwizard-client:${dropwizardVersion}"
+    //compile "${dropwizardGroup}:dropwizard-views:${dropwizardVersion}"
+    //compile "${dropwizardGroup}:dropwizard-views-mustache:${dropwizardVersion}"
+    //compile "${dropwizardGroup}:dropwizard-assets:${dropwizardVersion}"
+
+    compile "io.federecio:dropwizard-swagger:0.7.0"
+    compile "joda-time:joda-time:2.7"
+
+    runtime "org.postgresql:postgresql:9.3-1101-jdbc4"
+
+    testCompile "io.dropwizard:dropwizard-testing:${dropwizardVersion}"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testRuntime "cglib:cglib-nodep:2.2.2"          // allows mocking of classes (in addition to interfaces)
+    testRuntime "org.objenesis:objenesis:1.2"    // allows mocking of classes without default constructor (together with CGLIB)
+}
+
+jar {
+    manifest {
+        attributes 'Built-Date': new Date() //now
+        attributes 'Built-By': System.getProperty('user.name')
+        attributes 'Build-Jdk': System.getProperty('java.version')
+        attributes 'Implementation-Title': project.name
+        attributes 'Implementation-Version': project.version
+        attributes 'Implementation-Vendor-Id': project.group
+    }
+}
+
+shadowJar {
+    mergeServiceFiles()
+}
+
+run {
+    args 'server', 'src/main/resources/config.yml'
+}
+
+runShadow {
+    args 'server', "src/main/resources/config.yml"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
