@@ -26,15 +26,25 @@ app.controller('StrengthsController', function($scope,
     $scope.showStrengthDetail = function(chosenStrength){
         if ($scope.isOpen(chosenStrength)){
             $scope.chosenStrength = undefined;
+            console.log("IS OPEN")
         } else {
-            $scope.chosenStrength = chosenStrength;
-            //Get the people that have the strength
-            $scope.people = PersonFactory.query( {withStrength: chosenStrength.id } );
+            console.log(chosenStrength);
+            $scope.updatePeople(chosenStrength.id);
+            $scope.openDetail(chosenStrength);
         }
     };
 
+    $scope.openDetail = function(chosenStrength) {
+        $scope.chosenStrength = chosenStrength;
+    };
+
+    $scope.updatePeople = function(strengthId) {
+        console.log(strengthId);
+        $scope.people = PersonFactory.query( {withStrength: strengthId } );
+    };
+
     $scope.isOpen = function(chosenStrength){
-        return $scope.chosenStrength === chosenStrength;
+        return $scope.anyItemOpen() && $scope.chosenStrength.id === chosenStrength.id;
     };
 
     $scope.anyItemOpen = function() {
@@ -43,7 +53,8 @@ app.controller('StrengthsController', function($scope,
 
     if ($routeParams.strengthId != undefined) {
         var strength = StrengthFactory.get({id: $routeParams.strengthId});
-        $scope.showStrengthDetail(strength);
+        $scope.openDetail(strength);
+        $scope.updatePeople($routeParams.strengthId);
     }
 
 });

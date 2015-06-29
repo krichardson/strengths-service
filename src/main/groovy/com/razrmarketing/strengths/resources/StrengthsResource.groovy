@@ -35,7 +35,7 @@ class StrengthsResource {
 
     @GET
     @Path('/{id}')
-    @ApiOperation("Get a single strength")
+    @ApiOperation("Get a specific strength")
     @Timed
     public Strength getStrength(@PathParam('id') LongParam id) {
         return strengthsModule.getStrength(id.get())

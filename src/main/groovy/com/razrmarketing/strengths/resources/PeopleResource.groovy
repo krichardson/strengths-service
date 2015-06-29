@@ -9,6 +9,9 @@ import groovy.util.logging.Slf4j
 import io.dropwizard.jersey.params.LongParam
 import com.google.common.base.Optional
 
+import javax.print.attribute.standard.Media
+import javax.validation.Valid
+import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.Path
@@ -20,6 +23,7 @@ import javax.ws.rs.core.MediaType
 @Path("/people")
 @Api("/people")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
 class PeopleResource {
 
@@ -37,6 +41,13 @@ class PeopleResource {
             return peopleModule.findPeopleWithStrength(strengthId.get())
         }
         return peopleModule.listPeople()
+    }
+
+    @POST
+    @ApiOperation("Create a new person with strengths")
+    @Timed
+    public Person create(@Valid Person person) {
+        return peopleModule.createPerson(person)
     }
 
     @GET
