@@ -1,5 +1,6 @@
 package com.razrmarketing.strengths
 
+import com.google.common.collect.ImmutableMap
 import com.razrmarketing.strengths.dao.PersonDao
 import com.razrmarketing.strengths.dao.PersonStrengthDao
 import com.razrmarketing.strengths.dao.StrengthDao
@@ -8,6 +9,7 @@ import com.razrmarketing.strengths.module.StrengthsModule
 import com.razrmarketing.strengths.resources.PeopleResource
 import com.razrmarketing.strengths.resources.StrengthsResource
 import io.dropwizard.Application
+import io.dropwizard.assets.AssetsBundle
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor
 import io.dropwizard.configuration.SubstitutingSourceProvider
 import io.dropwizard.db.DataSourceFactory
@@ -46,6 +48,7 @@ class StrengthsApplication extends Application<StrengthsConfiguration> {
                 return configuration.swaggerBundleConfiguration
             }
         })
+        bootstrap.addBundle(new AssetsBundle('/assets/ui', '/', 'index.html', 'ui'))
     }
 
     @Override
@@ -53,8 +56,6 @@ class StrengthsApplication extends Application<StrengthsConfiguration> {
 
         final DBIFactory factory = new DBIFactory()
         final DBI jdbi = factory.build(environment, configuration.dataSourceFactory, "db")
-        //jdbi.registerArgumentFactory(new JodaLocalDateArgumentFactory())
-        //jdbi.registerMapper(new JodaLocalDateMapper())
 
         final PersonDao personDao = jdbi.onDemand(PersonDao)
         final StrengthDao strengthDao = jdbi.onDemand(StrengthDao)
@@ -67,9 +68,6 @@ class StrengthsApplication extends Application<StrengthsConfiguration> {
                 .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType), true, "/*")
         environment.jersey().register(new StrengthsResource(strengthsModule))
         environment.jersey().register(new PeopleResource(peopleModule))
-        //environment.jersey().register(new EducationResource(resumeModule))
-        //environment.jersey().register(new ExperienceResource(resumeModule))
-        //environment.jersey().register(new SkillsResource(resumeModule))
     }
 
 }

@@ -1,0 +1,55 @@
+/* app css stylesheet */
+
+.pageHeader {
+  background-image: url(../img/bg_bits.png);
+  background-color: #732D2D;
+  margin:0;
+  padding:0;
+  text-align: center;
+}
+
+.pageHeader h1 {
+  color: #efefef;
+  margin:0;
+  padding:0;
+  line-height: 4em;
+  font-size:3.2em;
+  font-weight:300;
+  font-family: 'Arvo', serif;
+  /*font-family: "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;*/
+}
+
+.navigation {
+  text-align:center;
+  margin:20px 0;
+}
+.navigation a {
+  width: 200px;
+  font-size:1.2em;
+}
+
+h2 {
+  color:#3c3c3c;
+  font-size:2.2em;
+  margin:20px 0;
+}
+
+.strength-detail, .person-detail {
+  padding-top:50px;
+}
+
+.strength-detail ul {
+  margin-top:10px;
+}
+
+.strength-detail p, .person-detail p {
+  font-size:1.1em;
+}
+
+.strength-detail h3, .person-detail h3 {
+  font-size: 1.4em;
+}
+
+.person-detail h5 {
+  font-size:1.2em;
+}

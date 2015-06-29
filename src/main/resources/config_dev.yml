@@ -27,13 +27,22 @@ database:
   # the maximum number of connections to keep open
   maxSize: 32
 
+#server:
+#  applicationConnectors:
+#    - type: http
+#      port: 8080
+#  adminConnectors:
+#    - type: http
+#      port: 8081
+
 server:
-  applicationConnectors:
-    - type: http
-      port: 8080
-  adminConnectors:
-    - type: http
-      port: 8081
+  type: simple
+  applicationContextPath: /
+  rootPath: /api/*
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
 
 # Logging settings.
 logging:

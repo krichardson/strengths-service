@@ -3,13 +3,13 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: kris
+  user: ${DB_USER}
 
   # the password
-  password:
+  password: ${DB_PASSWORD}
 
   # the JDBC URL
-  url: jdbc:postgresql://127.0.0.1/strengths
+  url: jdbc:${JDBC_URL}?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
 
   # any properties specific to your JDBC driver:
   properties:
@@ -28,12 +28,13 @@ database:
   maxSize: 32
 
 server:
-  applicationConnectors:
-    - type: http
-      port: 8080
-  adminConnectors:
-    - type: http
-      port: 8081
+  type: simple
+  applicationContextPath: /
+  rootPath: /api/*
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
 
 # Logging settings.
 logging:

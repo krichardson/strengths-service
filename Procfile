@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar build/libs/strengths-service-1.0.0-SNAPSHOT-all.jar db migrate build/resources/main/config.yml && java $JAVA_OPTS -Ddw.server.connector.port=$PORT -jar build/libs/strengths-service-1.0.0-SNAPSHOT-all.jar server build/resources/main/config.yml

@@ -32,10 +32,8 @@ dependencies {
     compile "${dropwizardGroup}:dropwizard-jdbi:${dropwizardVersion}"
     compile "${dropwizardGroup}:dropwizard-migrations:${dropwizardVersion}"
     compile "${dropwizardGroup}:dropwizard-auth:${dropwizardVersion}"
+    compile "${dropwizardGroup}:dropwizard-assets:${dropwizardVersion}"
     //compile "${dropwizardGroup}:dropwizard-client:${dropwizardVersion}"
-    //compile "${dropwizardGroup}:dropwizard-views:${dropwizardVersion}"
-    //compile "${dropwizardGroup}:dropwizard-views-mustache:${dropwizardVersion}"
-    //compile "${dropwizardGroup}:dropwizard-assets:${dropwizardVersion}"
 
     compile "io.federecio:dropwizard-swagger:0.7.0"
     compile "joda-time:joda-time:2.7"
@@ -64,11 +62,11 @@ shadowJar {
 }
 
 run {
-    args 'server', 'src/main/resources/config.yml'
+    args 'server', 'src/main/resources/config_dev.yml'
 }
 
 runShadow {
-    args 'server', "src/main/resources/config.yml"
+    args 'server', "src/main/resources/config_dev.yml"
 }
 
 task wrapper(type: Wrapper) {
